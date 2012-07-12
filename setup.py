@@ -5,7 +5,7 @@ version = '1.0'
 
 setup(name='rer.al.mcorevideoportlet',
       version=version,
-      description="",
+      description="This package is used to show mediacore video into a portlet",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
