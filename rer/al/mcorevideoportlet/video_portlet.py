@@ -48,13 +48,13 @@ class IMediacoreVideoPortlet(Interface):
         title=_(u"Video width"),
         description=_(u"The video width"),
         required=True,
-        default=180,)
+        default=200,)
 
     video_height = schema.Int(
         title=_(u"Video height"),
         description=_(u"The video height"),
         required=True,
-        default=180,)
+        default=152,)
 
 
 class Assignment(base.Assignment):
