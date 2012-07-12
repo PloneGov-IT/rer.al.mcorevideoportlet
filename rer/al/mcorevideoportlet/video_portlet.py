@@ -77,7 +77,7 @@ class Assignment(base.Assignment):
         self.video_security = video_security
         self.video_height = video_height
         self.video_width = video_width
-        self.portlet_id =  new_portlet_id.replace('-','').replace('.','')
+        self.portlet_id = new_portlet_id.replace('-', '').replace('.', '')
 
     @property
     def title(self):
@@ -95,13 +95,13 @@ class Renderer(base.Renderer):
     """
 
     render = ViewPageTemplateFile('video_portlet.pt')
-    
+
     def get_portlet_id(self):
         """
         get the portlet id to identify correctly all the video in the page
         """
         return self.data.portlet_id
-        
+
     def get_variables(self):
         """
         get the variables that allow to configure the video
@@ -121,15 +121,15 @@ class Renderer(base.Renderer):
 
     def getVideoLink(self, video_remoteurl, file_id, SECRET):
         """
-        calculate the video link basing on SECRET  
+        calculate the video link basing on SECRET
         """
         if SECRET:
-            ticket = auth_tkt.AuthTicket(SECRET, 
-                    userid = 'anonymous',
+            ticket = auth_tkt.AuthTicket(SECRET,
+                    userid='anonymous',
                     ip='0.0.0.0',
-                    tokens=[str(file_id),],
+                    tokens=[str(file_id), ],
                     user_data='',
-                    secure = False)
+                    secure=False)
             return "%s?token=%s:%s" % (video_remoteurl, file_id,
                             base64.urlsafe_b64encode(ticket.cookie_value()))
         else:
@@ -141,14 +141,14 @@ class Renderer(base.Renderer):
         """
         pprop = getUtility(IPropertiesTool)
         mediacore_prop = getattr(pprop, 'mediacore_properties', None)
-        SERVE_VIDEO =  mediacore_prop and mediacore_prop.base_uri or None
+        SERVE_VIDEO = mediacore_prop and mediacore_prop.base_uri or None
         SECRET = None
         if self.data.video_security:
             SECRET = mediacore_prop and mediacore_prop.secret or None
-        
+
         remoteurl = self.data.video_url
         url = list(urlparse.urlparse(remoteurl)[:2])
-        url.extend(4 * ['',])
+        url.extend(4 * ['', ])
         url = urlparse.urlunparse(url)
         media_slug = remoteurl.split('/')[-1]
         dto = urllib2.socket.getdefaulttimeout()
@@ -163,13 +163,13 @@ class Renderer(base.Renderer):
             data = None
         if data:
             data = cjson.decode(data)
-            video_remoteurl = '%s/files/%s' % (url,data['unique_id'])
+            video_remoteurl = '%s/files/%s' % (url, data['unique_id'])
             data['file_remoteurl'] = self.getVideoLink(video_remoteurl,
                                                        data['file_id'],
                                                        SECRET)
             return data
 
-    def get_player_setup(self):     
+    def get_player_setup(self):
         return """
             if (typeof %(portlet_id)s_jw_file === 'undefined') {
                 jq('div p#%(portlet_id)s_jw_message').text('Impossibile caricare il video');
@@ -185,7 +185,7 @@ class Renderer(base.Renderer):
                     image: %(portlet_id)s_jw_image,
                 });
             }
-        """%{'portlet_id':self.get_portlet_id()}
+        """ % {'portlet_id': self.get_portlet_id()}
 
     def get_player_navigation(self):
         return """
@@ -201,7 +201,7 @@ class Renderer(base.Renderer):
             <li class='jwplayeraudio' style="display:inline">
                 <a href="#" onclick="jwplayer('%(portlet_id)s_jw_container').setMute();return false;">Audio</a>
             </li>
-        """%{'portlet_id':self.get_portlet_id()}
+        """ % {'portlet_id' : self.get_portlet_id()}
 
 
 class AddForm(base.AddForm):
