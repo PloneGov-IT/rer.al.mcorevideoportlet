@@ -1,14 +1,15 @@
-<dl tal:attributes="class string:mcore_video_portlet"
+<dl tal:attributes="class string:portlet mcore_video_portlet"
     tal:define="portlet_id view/get_portlet_id"
     i18n:domain="rer.al.mcorevideoportlet">
 
     <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
         <span class="tile"
              tal:content="view/data/header"></span>
         <span class="portletTopRight"></span>
     </dt>
     <span tal:content="self/data/hash|nothing"/>
-    <dd class="mediacore_video">
+    <dd class="mediacore_video portletItem">
         <script type="text/javascript" tal:content="view/get_variables"></script>
         <h5 class="hiddenStructure">Controlli video <tal:videotitle tal:content='view/data/header'/></h5>
         <ul class="video-navigation" tal:condition="nothing" tal:replace="structure view/get_player_navigation">
