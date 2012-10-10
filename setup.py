@@ -24,9 +24,14 @@ setup(name='rer.al.mcorevideoportlet',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'collective.rtvideo.mediacore',
+          'rer.al.videobiblioteca',
+          'Paste==1.7.5.1'
           # -*- Extra requirements: -*-
       ],
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
