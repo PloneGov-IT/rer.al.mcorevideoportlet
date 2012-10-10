@@ -6,6 +6,7 @@ from paste.auth import auth_tkt
 from plone.app.form.widgets.wysiwygwidget import WYSIWYGWidget
 from plone.app.portlets.portlets import base
 from rer.al.mcorevideoportlet import al_mcorevideoportletMessageFactory as _
+from rer.al.mcorevideoportlet.config import DEFAULT_TIMEOUT
 from zope import schema
 from zope.app.component.hooks import getSite
 from zope.component._api import getUtility
@@ -151,13 +152,9 @@ class Renderer(base.Renderer):
         url.extend(4 * ['', ])
         url = urlparse.urlunparse(url)
         media_slug = remoteurl.split('/')[-1]
-        dto = urllib2.socket.getdefaulttimeout()
         try:
-            try:
-                urllib2.socket.setdefaulttimeout(10)
-                data = urllib2.urlopen(url + SERVE_VIDEO % media_slug).read()
-            finally:
-                urllib2.socket.setdefaulttimeout(dto)
+            data = urllib2.urlopen(url + SERVE_VIDEO % media_slug,
+                                   timeout=DEFAULT_TIMEOUT).read()
         except Exception, e:
             self.context.plone_log(e)
             data = None
@@ -201,7 +198,7 @@ class Renderer(base.Renderer):
             <li class='jwplayeraudio' style="display:inline">
                 <a href="#" onclick="jwplayer('%(portlet_id)s_jw_container').setMute();return false;">Audio</a>
             </li>
-        """ % {'portlet_id' : self.get_portlet_id()}
+        """ % {'portlet_id': self.get_portlet_id()}
 
 
 class AddForm(base.AddForm):
