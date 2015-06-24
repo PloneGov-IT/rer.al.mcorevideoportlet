@@ -7,7 +7,7 @@ Changelog
 - Removed unwanted dependencies
 - Documentation
 - Provided sane defaults if mediacore_properties are missing
-  [ale-rt, da]
+  [ale-rt, daniele-andreotti]
 
 
 2.0.0 (2012-11-23)

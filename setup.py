@@ -25,6 +25,7 @@ setup(name='rer.al.mcorevideoportlet',
       install_requires=[
           'setuptools',
           'collective.rtvideo.mediacore',
+          'Paste==1.7.5.1'
           # -*- Extra requirements: -*-
       ],
       entry_points="""
