@@ -6,8 +6,8 @@ version = '2.0.1.dev0'
 setup(name='rer.al.mcorevideoportlet',
       version=version,
       description="This package is used to show mediacore video into a portlet",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=open("README.rst").read() + "\n" +
+                       open(os.path.join("docs", "HISTORY.rst")).read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
@@ -25,8 +25,6 @@ setup(name='rer.al.mcorevideoportlet',
       install_requires=[
           'setuptools',
           'collective.rtvideo.mediacore',
-          'rer.al.videobiblioteca',
-          'Paste==1.7.5.1'
           # -*- Extra requirements: -*-
       ],
       entry_points="""

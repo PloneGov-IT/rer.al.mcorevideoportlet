@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from . import logger
 from Products.CMFCore.interfaces import IPropertiesTool
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from paste.auth import auth_tkt
@@ -19,6 +20,7 @@ import urlparse
 
 
 class IMediacoreVideoPortlet(Interface):
+
     """
     Marker interface for Mediacore video portlet
     with field definition
@@ -36,7 +38,8 @@ class IMediacoreVideoPortlet(Interface):
 
     video_security = schema.Bool(
         title=_(u"Video with security"),
-        description=_(u"Tick this box if you want to render a video with security check"),
+        description=_(
+            u"Tick this box if you want to render a video with security check"),
         required=True,
         default=False)
 
@@ -89,6 +92,7 @@ class Assignment(base.Assignment):
 
 
 class Renderer(base.Renderer):
+
     """Portlet renderer.
        This is registered in configure.zcml. The referenced page template is
        rendered, and the implicit variable 'view' will refer to an instance
@@ -126,13 +130,13 @@ class Renderer(base.Renderer):
         """
         if SECRET:
             ticket = auth_tkt.AuthTicket(SECRET,
-                    userid='anonymous',
-                    ip='0.0.0.0',
-                    tokens=[str(file_id), ],
-                    user_data='',
-                    secure=False)
+                                         userid='anonymous',
+                                         ip='0.0.0.0',
+                                         tokens=[str(file_id), ],
+                                         user_data='',
+                                         secure=False)
             return "%s?token=%s:%s" % (video_remoteurl, file_id,
-                            base64.urlsafe_b64encode(ticket.cookie_value()))
+                                       base64.urlsafe_b64encode(ticket.cookie_value()))
         else:
             return "%s" % (video_remoteurl)
 
@@ -142,11 +146,15 @@ class Renderer(base.Renderer):
         """
         pprop = getUtility(IPropertiesTool)
         mediacore_prop = getattr(pprop, 'mediacore_properties', None)
-        SERVE_VIDEO = mediacore_prop and mediacore_prop.base_uri or None
-        SECRET = None
+        SERVE_VIDEO = (
+            mediacore_prop
+            and mediacore_prop.base_uri
+            or '/file_url/media_unique_id?slug=%s'
+        )
         if self.data.video_security:
-            SECRET = mediacore_prop and mediacore_prop.secret or None
-
+            SECRET = mediacore_prop and mediacore_prop.secret or ''
+        else:
+            SECRET = ''
         remoteurl = self.data.video_url
         url = list(urlparse.urlparse(remoteurl)[:2])
         url.extend(4 * ['', ])
@@ -155,8 +163,8 @@ class Renderer(base.Renderer):
         try:
             data = urllib2.urlopen(url + SERVE_VIDEO % media_slug,
                                    timeout=DEFAULT_TIMEOUT).read()
-        except Exception, e:
-            self.context.plone_log(e)
+        except:
+            logger.exception('Error getting data')
             data = None
         if data:
             data = cjson.decode(data)
@@ -202,6 +210,7 @@ class Renderer(base.Renderer):
 
 
 class AddForm(base.AddForm):
+
     """Portlet add form.
 
     This is registered in configure.zcml. The form_fields variable tells
@@ -220,6 +229,7 @@ class AddForm(base.AddForm):
 
 
 class EditForm(base.EditForm):
+
     """Portlet edit form.
 
     This is registered with configure.zcml. The form_fields variable tells
