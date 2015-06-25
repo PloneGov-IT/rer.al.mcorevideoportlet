@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.0 (unreleased)
+2.1.0 (2015-06-25)
 ------------------
 
 - Removed unwanted dependencies
