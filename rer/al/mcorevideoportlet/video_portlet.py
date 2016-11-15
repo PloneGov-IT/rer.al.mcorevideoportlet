@@ -9,7 +9,7 @@ from plone.app.portlets.portlets import base
 from rer.al.mcorevideoportlet import al_mcorevideoportletMessageFactory as _
 from rer.al.mcorevideoportlet.config import DEFAULT_TIMEOUT
 from zope import schema
-from zope.app.component.hooks import getSite
+from zope.site.hooks import getSite
 from zope.component._api import getUtility
 from zope.formlib import form
 from zope.interface import implements, Interface

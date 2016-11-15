@@ -4,7 +4,8 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Plone 4.3 compatibility
+  [cekk]
 
 
 2.1.0 (2015-06-25)
