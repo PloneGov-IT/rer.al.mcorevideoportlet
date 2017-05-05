@@ -4,7 +4,7 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added CSS class field [nicola]
 
 
 2.1.1 (2016-11-15)

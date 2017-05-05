@@ -1,4 +1,4 @@
-<dl tal:attributes="class string:portlet mcore_video_portlet portletMultimedia portletMultimediaVideo"
+<dl tal:attributes="class view/get_portlet_class"
     tal:define="portlet_id view/get_portlet_id"
     i18n:domain="rer.al.mcorevideoportlet">
 

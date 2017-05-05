@@ -60,6 +60,11 @@ class IMediacoreVideoPortlet(Interface):
         required=True,
         default=152,)
 
+    portlet_class = schema.TextLine(title=_(u"Portlet class"),
+                                    required=False,
+                                    description=_(u"CSS class to add at the portlet"))
+
+
 
 class Assignment(base.Assignment):
     implements(IMediacoreVideoPortlet)
@@ -71,9 +76,10 @@ class Assignment(base.Assignment):
     video_height = 0
     video_width = 0
     portlet_id = ''
+    portlet_class = ''
 
     def __init__(self, header='', video_url='', text='', video_security=False,
-                 video_height=0, video_width=0):
+                 video_height=0, video_width=0, portlet_class=''):
         new_portlet_id = getSite().generateUniqueId('MediacoreVideoPortlet')
         self.header = header
         self.video_url = video_url
@@ -81,6 +87,7 @@ class Assignment(base.Assignment):
         self.video_security = video_security
         self.video_height = video_height
         self.video_width = video_width
+        self.portlet_class = portlet_class
         self.portlet_id = new_portlet_id.replace('-', '').replace('.', '')
 
     @property
@@ -208,6 +215,11 @@ class Renderer(base.Renderer):
             </li>
         """ % {'portlet_id': self.get_portlet_id()}
 
+    def get_portlet_class(self):
+        classes = "portlet mcore_video_portlet portletMultimedia portletMultimediaVideo"
+        if self.data.portlet_class:
+            classes += " %s" % self.data.portlet_class
+        return classes
 
 class AddForm(base.AddForm):
 
